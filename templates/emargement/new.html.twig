@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Emarger{% endblock %}
+
+{% block body %}
+    <h1>Create new Emarger</h1>
+
+    {{ include('emargement/_form.html.twig') }}
+
+    <a href="{{ path('app_emargement_index') }}">back to list</a>
+{% endblock %}

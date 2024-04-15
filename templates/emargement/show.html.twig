@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emarger{% endblock %}
+
+{% block body %}
+    <h1>Emarger</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Presence</th>
+                <td>{{ emarger.presence ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Alternative</th>
+                <td>{{ emarger.alternative }}</td>
+            </tr>
+            <tr>
+                <th>HeureArrivee</th>
+                <td>{{ emarger.heureArrivee ? emarger.heureArrivee|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>HeureDepart</th>
+                <td>{{ emarger.heureDepart ? emarger.heureDepart|date('H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_emargement_index') }}">back to list</a>
+
+    <a href="{{ path('app_emargement_edit', {'session': emarger.session}) }}">edit</a>
+
+    {{ include('emargement/_delete_form.html.twig') }}
+{% endblock %}

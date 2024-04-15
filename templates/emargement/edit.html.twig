@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Emarger{% endblock %}
+
+{% block body %}
+    <h1>Edit Emarger</h1>
+
+    {{ include('emargement/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_emargement_index') }}">back to list</a>
+
+    {{ include('emargement/_delete_form.html.twig') }}
+{% endblock %}

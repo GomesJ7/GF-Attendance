@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emarger index{% endblock %}
+
+{% block body %}
+    <h1>Emarger index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Presence</th>
+                <th>Alternative</th>
+                <th>HeureArrivee</th>
+                <th>HeureDepart</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for emarger in emargers %}
+            <tr>
+                <td>{{ emarger.presence ? 'Yes' : 'No' }}</td>
+                <td>{{ emarger.alternative }}</td>
+                <td>{{ emarger.heureArrivee ? emarger.heureArrivee|date('H:i:s') : '' }}</td>
+                <td>{{ emarger.heureDepart ? emarger.heureDepart|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_emargement_show', {'session': emarger.session}) }}">show</a>
+                    <a href="{{ path('app_emargement_edit', {'session': emarger.session}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_emargement_new') }}">Create new</a>
+{% endblock %}
