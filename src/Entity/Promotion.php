@@ -33,13 +33,6 @@ class Promotion
     private Collection $sessions;
 
     /**
-     * @var Collection<int, Formation>
-     */
-    #[ORM\ManyToMany(targetEntity: Formation::class, inversedBy: 'promotions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Collection $formation;
-
-    /**
      * @var Collection<int, Utilisateur>
      */
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'promotions')]
@@ -49,7 +42,6 @@ class Promotion
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
-        $this->formation = new ArrayCollection();
         $this->utilisateur = new ArrayCollection();
     }
 
@@ -120,30 +112,6 @@ class Promotion
                 $session->setPromotion(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Formation>
-     */
-    public function getFormation(): Collection
-    {
-        return $this->formation;
-    }
-
-    public function addFormation(Formation $formation): static
-    {
-        if (!$this->formation->contains($formation)) {
-            $this->formation->add($formation);
-        }
-
-        return $this;
-    }
-
-    public function removeFormation(Formation $formation): static
-    {
-        $this->formation->removeElement($formation);
 
         return $this;
     }
