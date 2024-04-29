@@ -9,24 +9,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Inscrire
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'inscrires')]
-    private ?Utilisateur $utilisateur = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'inscrires')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Promotion $promotion = null;
 
-    public function getUtilisateur(): ?Utilisateur
-    {
-        return $this->utilisateur;
-    }
+    #[ORM\ManyToOne(inversedBy: 'inscrires')]
+    private ?Utilisateur $utilisateur = null;
 
-    public function setUtilisateur(?Utilisateur $utilisateur): static
+    public function getId(): ?int
     {
-        $this->utilisateur = $utilisateur;
-
-        return $this;
+        return $this->id;
     }
 
     public function getPromotion(): ?Promotion
@@ -37,6 +33,18 @@ class Inscrire
     public function setPromotion(?Promotion $promotion): static
     {
         $this->promotion = $promotion;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateur $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

@@ -14,6 +14,7 @@ class FormationType extends AbstractType
         $builder
             ->add('certification')
             ->add('specialite')
+            ->add('nomOption')
         ;
     }
 

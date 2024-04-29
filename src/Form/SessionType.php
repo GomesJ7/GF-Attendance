@@ -28,10 +28,6 @@ class SessionType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('commentaire')
-            ->add('promotion', EntityType::class, [
-                'class' => Promotion::class,
-                'choice_label' => 'id',
-            ])
             ->add('utilisateur', EntityType::class, [
                 'class' => Utilisateur::class,
                 'choice_label' => 'id',
@@ -43,6 +39,11 @@ class SessionType extends AbstractType
             ->add('salleClasse', EntityType::class, [
                 'class' => SalleClasse::class,
                 'choice_label' => 'id',
+            ])
+            ->add('promotion', EntityType::class, [
+                'class' => Promotion::class,
+                'choice_label' => 'id',
+                'multiple' => true,
             ])
         ;
     }

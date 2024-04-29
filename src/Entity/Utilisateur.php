@@ -43,10 +43,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     /**
-     * @var Collection<int, Session>
+     * @var Collection<int, Inscrire>
      */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'utilisateur')]
-    private Collection $sessions;
+    #[ORM\OneToMany(targetEntity: Inscrire::class, mappedBy: 'utilisateur')]
+    private Collection $inscrires;
 
     /**
      * @var Collection<int, Emarger>
@@ -55,16 +55,16 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $emargers;
 
     /**
-     * @var Collection<int, Inscrire>
+     * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Inscrire::class, mappedBy: 'utilisateur')]
-    private Collection $inscrires;
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'utilisateur')]
+    private Collection $sessions;
 
     public function __construct()
     {
-        $this->sessions = new ArrayCollection();
-        $this->emargers = new ArrayCollection();
         $this->inscrires = new ArrayCollection();
+        $this->emargers = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,29 +179,29 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Session>
+     * @return Collection<int, Inscrire>
      */
-    public function getSessions(): Collection
+    public function getInscrires(): Collection
     {
-        return $this->sessions;
+        return $this->inscrires;
     }
 
-    public function addSession(Session $session): static
+    public function addInscrire(Inscrire $inscrire): static
     {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions->add($session);
-            $session->setUtilisateur($this);
+        if (!$this->inscrires->contains($inscrire)) {
+            $this->inscrires->add($inscrire);
+            $inscrire->setUtilisateur($this);
         }
 
         return $this;
     }
 
-    public function removeSession(Session $session): static
+    public function removeInscrire(Inscrire $inscrire): static
     {
-        if ($this->sessions->removeElement($session)) {
+        if ($this->inscrires->removeElement($inscrire)) {
             // set the owning side to null (unless already changed)
-            if ($session->getUtilisateur() === $this) {
-                $session->setUtilisateur(null);
+            if ($inscrire->getUtilisateur() === $this) {
+                $inscrire->setUtilisateur(null);
             }
         }
 
@@ -239,29 +239,29 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Inscrire>
+     * @return Collection<int, Session>
      */
-    public function getInscrires(): Collection
+    public function getSessions(): Collection
     {
-        return $this->inscrires;
+        return $this->sessions;
     }
 
-    public function addInscrire(Inscrire $inscrire): static
+    public function addSession(Session $session): static
     {
-        if (!$this->inscrires->contains($inscrire)) {
-            $this->inscrires->add($inscrire);
-            $inscrire->setUtilisateur($this);
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->setUtilisateur($this);
         }
 
         return $this;
     }
 
-    public function removeInscrire(Inscrire $inscrire): static
+    public function removeSession(Session $session): static
     {
-        if ($this->inscrires->removeElement($inscrire)) {
+        if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
-            if ($inscrire->getUtilisateur() === $this) {
-                $inscrire->setUtilisateur(null);
+            if ($session->getUtilisateur() === $this) {
+                $session->setUtilisateur(null);
             }
         }
 

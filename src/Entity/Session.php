@@ -31,9 +31,11 @@ class Session
     #[ORM\Column(length: 250, nullable: true)]
     private ?string $commentaire = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sessions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Promotion $promotion = null;
+    /**
+     * @var Collection<int, Emarger>
+     */
+    #[ORM\OneToMany(targetEntity: Emarger::class, mappedBy: 'session')]
+    private Collection $emargers;
 
     #[ORM\ManyToOne(inversedBy: 'sessions')]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,14 +50,15 @@ class Session
     private ?SalleClasse $salleClasse = null;
 
     /**
-     * @var Collection<int, Emarger>
+     * @var Collection<int, Promotion>
      */
-    #[ORM\OneToMany(targetEntity: Emarger::class, mappedBy: 'session')]
-    private Collection $emargers;
+    #[ORM\ManyToMany(targetEntity: Promotion::class, inversedBy: 'sessions')]
+    private Collection $promotion;
 
     public function __construct()
     {
         $this->emargers = new ArrayCollection();
+        $this->promotion = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,14 +126,32 @@ class Session
         return $this;
     }
 
-    public function getPromotion(): ?Promotion
+    /**
+     * @return Collection<int, Emarger>
+     */
+    public function getEmargers(): Collection
     {
-        return $this->promotion;
+        return $this->emargers;
     }
 
-    public function setPromotion(?Promotion $promotion): static
+    public function addEmarger(Emarger $emarger): static
     {
-        $this->promotion = $promotion;
+        if (!$this->emargers->contains($emarger)) {
+            $this->emargers->add($emarger);
+            $emarger->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmarger(Emarger $emarger): static
+    {
+        if ($this->emargers->removeElement($emarger)) {
+            // set the owning side to null (unless already changed)
+            if ($emarger->getSession() === $this) {
+                $emarger->setSession(null);
+            }
+        }
 
         return $this;
     }
@@ -172,31 +193,25 @@ class Session
     }
 
     /**
-     * @return Collection<int, Emarger>
+     * @return Collection<int, Promotion>
      */
-    public function getEmargers(): Collection
+    public function getPromotion(): Collection
     {
-        return $this->emargers;
+        return $this->promotion;
     }
 
-    public function addEmarger(Emarger $emarger): static
+    public function addPromotion(Promotion $promotion): static
     {
-        if (!$this->emargers->contains($emarger)) {
-            $this->emargers->add($emarger);
-            $emarger->setSession($this);
+        if (!$this->promotion->contains($promotion)) {
+            $this->promotion->add($promotion);
         }
 
         return $this;
     }
 
-    public function removeEmarger(Emarger $emarger): static
+    public function removePromotion(Promotion $promotion): static
     {
-        if ($this->emargers->removeElement($emarger)) {
-            // set the owning side to null (unless already changed)
-            if ($emarger->getSession() === $this) {
-                $emarger->setSession(null);
-            }
-        }
+        $this->promotion->removeElement($promotion);
 
         return $this;
     }

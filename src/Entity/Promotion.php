@@ -25,12 +25,9 @@ class Promotion
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateFin = null;
 
-    /**
-     * @var Collection<int, Session>
-     */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'promotion')]
+    #[ORM\ManyToOne(inversedBy: 'promotions')]
     #[ORM\JoinColumn(nullable: false)]
-    private Collection $sessions;
+    private ?Formation $formation = null;
 
     /**
      * @var Collection<int, Inscrire>
@@ -39,16 +36,15 @@ class Promotion
     private Collection $inscrires;
 
     /**
-     * @var Collection<int, Contenir>
+     * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Contenir::class, mappedBy: 'promotion')]
-    private Collection $contenirs;
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'promotion')]
+    private Collection $sessions;
 
     public function __construct()
     {
-        $this->sessions = new ArrayCollection();
         $this->inscrires = new ArrayCollection();
-        $this->contenirs = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,32 +88,14 @@ class Promotion
         return $this;
     }
 
-    /**
-     * @return Collection<int, Session>
-     */
-    public function getSessions(): Collection
+    public function getFormation(): ?Formation
     {
-        return $this->sessions;
+        return $this->formation;
     }
 
-    public function addSession(Session $session): static
+    public function setFormation(?Formation $formation): static
     {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions->add($session);
-            $session->setPromotion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSession(Session $session): static
-    {
-        if ($this->sessions->removeElement($session)) {
-            // set the owning side to null (unless already changed)
-            if ($session->getPromotion() === $this) {
-                $session->setPromotion(null);
-            }
-        }
+        $this->formation = $formation;
 
         return $this;
     }
@@ -153,30 +131,27 @@ class Promotion
     }
 
     /**
-     * @return Collection<int, Contenir>
+     * @return Collection<int, Session>
      */
-    public function getContenirs(): Collection
+    public function getSessions(): Collection
     {
-        return $this->contenirs;
+        return $this->sessions;
     }
 
-    public function addContenir(Contenir $contenir): static
+    public function addSession(Session $session): static
     {
-        if (!$this->contenirs->contains($contenir)) {
-            $this->contenirs->add($contenir);
-            $contenir->setPromotion($this);
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->addPromotion($this);
         }
 
         return $this;
     }
 
-    public function removeContenir(Contenir $contenir): static
+    public function removeSession(Session $session): static
     {
-        if ($this->contenirs->removeElement($contenir)) {
-            // set the owning side to null (unless already changed)
-            if ($contenir->getPromotion() === $this) {
-                $contenir->setPromotion(null);
-            }
+        if ($this->sessions->removeElement($session)) {
+            $session->removePromotion($this);
         }
 
         return $this;

@@ -3,20 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\EmargerRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EmargerRepository::class)]
 class Emarger
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'emargers')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Session $session = null;
-
-    #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'emargers')]
-    private ?Utilisateur $utilisateur = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\Column]
     private ?bool $presence = null;
@@ -24,11 +19,23 @@ class Emarger
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $alternative = null;
 
-    #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    #[ORM\Column]
     private ?\DateTimeImmutable $heureArrivee = null;
 
-    #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
+    #[ORM\Column]
     private ?\DateTimeImmutable $heureDepart = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emargers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Session $session = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emargers')]
+    private ?Utilisateur $utilisateur = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function isPresence(): ?bool
     {
@@ -71,7 +78,7 @@ class Emarger
         return $this->heureDepart;
     }
 
-    public function setHeureDepart(?\DateTimeImmutable $heureDepart): static
+    public function setHeureDepart(\DateTimeImmutable $heureDepart): static
     {
         $this->heureDepart = $heureDepart;
 

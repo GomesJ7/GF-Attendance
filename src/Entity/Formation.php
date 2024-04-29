@@ -21,22 +21,18 @@ class Formation
     #[ORM\Column(length: 50)]
     private ?string $specialite = null;
 
-    /**
-     * @var Collection<int, Option>
-     */
-    #[ORM\OneToMany(targetEntity: Option::class, mappedBy: 'formation')]
-    private Collection $options;
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $nomOption = null;
 
     /**
-     * @var Collection<int, Contenir>
+     * @var Collection<int, Promotion>
      */
-    #[ORM\OneToMany(targetEntity: Contenir::class, mappedBy: 'formation')]
-    private Collection $contenirs;
+    #[ORM\OneToMany(targetEntity: Promotion::class, mappedBy: 'formation')]
+    private Collection $promotions;
 
     public function __construct()
     {
-        $this->options = new ArrayCollection();
-        $this->contenirs = new ArrayCollection();
+        $this->promotions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,60 +64,42 @@ class Formation
         return $this;
     }
 
-    /**
-     * @return Collection<int, Option>
-     */
-    public function getOptions(): Collection
+    public function getNomOption(): ?string
     {
-        return $this->options;
+        return $this->nomOption;
     }
 
-    public function addOption(Option $option): static
+    public function setNomOption(?string $nomOption): static
     {
-        if (!$this->options->contains($option)) {
-            $this->options->add($option);
-            $option->setFormation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOption(Option $option): static
-    {
-        if ($this->options->removeElement($option)) {
-            // set the owning side to null (unless already changed)
-            if ($option->getFormation() === $this) {
-                $option->setFormation(null);
-            }
-        }
+        $this->nomOption = $nomOption;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Contenir>
+     * @return Collection<int, Promotion>
      */
-    public function getContenirs(): Collection
+    public function getPromotions(): Collection
     {
-        return $this->contenirs;
+        return $this->promotions;
     }
 
-    public function addContenir(Contenir $contenir): static
+    public function addPromotion(Promotion $promotion): static
     {
-        if (!$this->contenirs->contains($contenir)) {
-            $this->contenirs->add($contenir);
-            $contenir->setFormation($this);
+        if (!$this->promotions->contains($promotion)) {
+            $this->promotions->add($promotion);
+            $promotion->setFormation($this);
         }
 
         return $this;
     }
 
-    public function removeContenir(Contenir $contenir): static
+    public function removePromotion(Promotion $promotion): static
     {
-        if ($this->contenirs->removeElement($contenir)) {
+        if ($this->promotions->removeElement($promotion)) {
             // set the owning side to null (unless already changed)
-            if ($contenir->getFormation() === $this) {
-                $contenir->setFormation(null);
+            if ($promotion->getFormation() === $this) {
+                $promotion->setFormation(null);
             }
         }
 
