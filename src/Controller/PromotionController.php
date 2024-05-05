@@ -9,12 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/promotion')]
 class PromotionController extends AbstractController
 {
     #[Route('/', name: 'app_promotion_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(PromotionRepository $promotionRepository): Response
     {
         return $this->render('promotion/index.html.twig', [
@@ -23,6 +25,7 @@ class PromotionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_promotion_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $promotion = new Promotion();
@@ -43,6 +46,7 @@ class PromotionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_promotion_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(Promotion $promotion): Response
     {
         return $this->render('promotion/show.html.twig', [
@@ -51,6 +55,7 @@ class PromotionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_promotion_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Promotion $promotion, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(PromotionType::class, $promotion);
@@ -69,6 +74,7 @@ class PromotionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_promotion_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Promotion $promotion, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$promotion->getId(), $request->getPayload()->get('_token'))) {
