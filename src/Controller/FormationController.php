@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/formation')]
 class FormationController extends AbstractController
 {
     #[Route('/', name: 'app_formation_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(FormationRepository $formationRepository): Response
     {
         return $this->render('formation/index.html.twig', [
@@ -23,6 +25,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_formation_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $formation = new Formation();
@@ -43,6 +46,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_formation_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(Formation $formation): Response
     {
         return $this->render('formation/show.html.twig', [
@@ -51,6 +55,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_formation_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(FormationType::class, $formation);
@@ -69,6 +74,7 @@ class FormationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_formation_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$formation->getId(), $request->getPayload()->get('_token'))) {

@@ -9,12 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/session')]
 class SessionController extends AbstractController
 {
     #[Route('/', name: 'app_session_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(SessionRepository $sessionRepository): Response
     {
         return $this->render('session/index.html.twig', [
@@ -23,6 +25,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $session = new Session();
@@ -43,6 +46,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_session_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(Session $session): Response
     {
         return $this->render('session/show.html.twig', [
@@ -51,6 +55,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_session_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Session $session, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SessionType::class, $session);
@@ -69,6 +74,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_session_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Session $session, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$session->getId(), $request->getPayload()->get('_token'))) {

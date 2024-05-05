@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/emarger')]
 class EmargerController extends AbstractController
@@ -69,6 +70,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emarger_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Emarger $emarger, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$emarger->getId(), $request->getPayload()->get('_token'))) {
