@@ -51,7 +51,7 @@ final class UtilisateurFactory extends ModelFactory
             'nom' => 'admin',
             'password' => '$2y$13$oREb/Yhk8r1murkrbnT1c.yrYsOC1I4y3S2RdZXYmr3SA7bp.mRSu',
             'prenom' => 'adm',
-            'roles' => ['ROLE_ADMIN'],
+            'roles' => ['ROLE_USER','ROLE_ADMIN'],
         ];
     }
 
