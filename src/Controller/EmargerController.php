@@ -24,6 +24,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/new', name: 'app_emarger_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN','ROLE_FORMATEUR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $emarger = new Emarger();
@@ -44,6 +45,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emarger_show', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN','ROLE_FORMATEUR')]
     public function show(Emarger $emarger): Response
     {
         return $this->render('emarger/show.html.twig', [
@@ -52,6 +54,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_emarger_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Emarger $emarger, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmargerType::class, $emarger);

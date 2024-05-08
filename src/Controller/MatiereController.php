@@ -46,7 +46,7 @@ class MatiereController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_matiere_show', methods: ['GET'])]
-    #[IsGranted('ROLE_ROLE')]
+    #[IsGranted('ROLE_USER')]
     public function show(Matiere $matiere): Response
     {
         return $this->render('matiere/show.html.twig', [
