@@ -16,33 +16,35 @@ class Promotion
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 9, nullable: true)]
+    #[ORM\Column(length: 9)]
     private ?string $annee = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateFin = null;
 
+    #[ORM\ManyToOne(inversedBy: 'promotions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Formation $formation = null;
+
+    /**
+     * @var Collection<int, Inscrire>
+     */
+    #[ORM\OneToMany(targetEntity: Inscrire::class, mappedBy: 'promotion')]
+    private Collection $inscrires;
+
     /**
      * @var Collection<int, Session>
      */
-    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'promotion')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'promotion')]
     private Collection $sessions;
-
-    /**
-     * @var Collection<int, Utilisateur>
-     */
-    #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'promotions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private Collection $utilisateur;
 
     public function __construct()
     {
+        $this->inscrires = new ArrayCollection();
         $this->sessions = new ArrayCollection();
-        $this->utilisateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,7 +69,7 @@ class Promotion
         return $this->dateDebut;
     }
 
-    public function setDateDebut(?\DateTimeInterface $dateDebut): static
+    public function setDateDebut(\DateTimeInterface $dateDebut): static
     {
         $this->dateDebut = $dateDebut;
 
@@ -86,6 +88,48 @@ class Promotion
         return $this;
     }
 
+    public function getFormation(): ?Formation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(?Formation $formation): static
+    {
+        $this->formation = $formation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Inscrire>
+     */
+    public function getInscrires(): Collection
+    {
+        return $this->inscrires;
+    }
+
+    public function addInscrire(Inscrire $inscrire): static
+    {
+        if (!$this->inscrires->contains($inscrire)) {
+            $this->inscrires->add($inscrire);
+            $inscrire->setPromotion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrire(Inscrire $inscrire): static
+    {
+        if ($this->inscrires->removeElement($inscrire)) {
+            // set the owning side to null (unless already changed)
+            if ($inscrire->getPromotion() === $this) {
+                $inscrire->setPromotion(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Session>
      */
@@ -98,7 +142,7 @@ class Promotion
     {
         if (!$this->sessions->contains($session)) {
             $this->sessions->add($session);
-            $session->setPromotion($this);
+            $session->addPromotion($this);
         }
 
         return $this;
@@ -107,35 +151,8 @@ class Promotion
     public function removeSession(Session $session): static
     {
         if ($this->sessions->removeElement($session)) {
-            // set the owning side to null (unless already changed)
-            if ($session->getPromotion() === $this) {
-                $session->setPromotion(null);
-            }
+            $session->removePromotion($this);
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Utilisateur>
-     */
-    public function getUtilisateur(): Collection
-    {
-        return $this->utilisateur;
-    }
-
-    public function addUtilisateur(Utilisateur $utilisateur): static
-    {
-        if (!$this->utilisateur->contains($utilisateur)) {
-            $this->utilisateur->add($utilisateur);
-        }
-
-        return $this;
-    }
-
-    public function removeUtilisateur(Utilisateur $utilisateur): static
-    {
-        $this->utilisateur->removeElement($utilisateur);
 
         return $this;
     }

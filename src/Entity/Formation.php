@@ -21,6 +21,20 @@ class Formation
     #[ORM\Column(length: 50)]
     private ?string $specialite = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $nomOption = null;
+
+    /**
+     * @var Collection<int, Promotion>
+     */
+    #[ORM\OneToMany(targetEntity: Promotion::class, mappedBy: 'formation')]
+    private Collection $promotions;
+
+    public function __construct()
+    {
+        $this->promotions = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +60,48 @@ class Formation
     public function setSpecialite(string $specialite): static
     {
         $this->specialite = $specialite;
+
+        return $this;
+    }
+
+    public function getNomOption(): ?string
+    {
+        return $this->nomOption;
+    }
+
+    public function setNomOption(?string $nomOption): static
+    {
+        $this->nomOption = $nomOption;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Promotion>
+     */
+    public function getPromotions(): Collection
+    {
+        return $this->promotions;
+    }
+
+    public function addPromotion(Promotion $promotion): static
+    {
+        if (!$this->promotions->contains($promotion)) {
+            $this->promotions->add($promotion);
+            $promotion->setFormation($this);
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotion $promotion): static
+    {
+        if ($this->promotions->removeElement($promotion)) {
+            // set the owning side to null (unless already changed)
+            if ($promotion->getFormation() === $this) {
+                $promotion->setFormation(null);
+            }
+        }
 
         return $this;
     }
