@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/emarger')]
 class EmargerController extends AbstractController
@@ -23,6 +24,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/new', name: 'app_emarger_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN','ROLE_FORMATEUR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $emarger = new Emarger();
@@ -43,6 +45,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emarger_show', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN','ROLE_FORMATEUR')]
     public function show(Emarger $emarger): Response
     {
         return $this->render('emarger/show.html.twig', [
@@ -51,6 +54,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_emarger_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, Emarger $emarger, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmargerType::class, $emarger);
@@ -69,6 +73,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emarger_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Emarger $emarger, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$emarger->getId(), $request->getPayload()->get('_token'))) {

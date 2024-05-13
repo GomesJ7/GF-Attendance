@@ -6,6 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /config/jwt/*
 /public/bundles/
+/config/jwt/*
 /var/
 /vendor/
 .env
