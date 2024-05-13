@@ -43,12 +43,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     /**
-     * @var Collection<int, Inscrire>
-     */
-    #[ORM\OneToMany(targetEntity: Inscrire::class, mappedBy: 'utilisateur')]
-    private Collection $inscrires;
-
-    /**
      * @var Collection<int, Emarger>
      */
     #[ORM\OneToMany(targetEntity: Emarger::class, mappedBy: 'utilisateur')]
@@ -60,11 +54,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'utilisateur')]
     private Collection $sessions;
 
+    /**
+     * @var Collection<int, Promotion>
+     */
+    #[ORM\ManyToMany(targetEntity: Promotion::class, inversedBy: 'utilisateurs')]
+    private Collection $promotion;
+
     public function __construct()
     {
-        $this->inscrires = new ArrayCollection();
         $this->emargers = new ArrayCollection();
         $this->sessions = new ArrayCollection();
+        $this->promotion = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,39 +176,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->prenom = $prenom;
 
         return $this;
-    }
+    }    
 
-    /**
-     * @return Collection<int, Inscrire>
-     */
-    public function getInscrires(): Collection
-    {
-        return $this->inscrires;
-    }
-
-    public function addInscrire(Inscrire $inscrire): static
-    {
-        if (!$this->inscrires->contains($inscrire)) {
-            $this->inscrires->add($inscrire);
-            $inscrire->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInscrire(Inscrire $inscrire): static
-    {
-        if ($this->inscrires->removeElement($inscrire)) {
-            // set the owning side to null (unless already changed)
-            if ($inscrire->getUtilisateur() === $this) {
-                $inscrire->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
+/**
      * @return Collection<int, Emarger>
      */
     public function getEmargers(): Collection
@@ -264,6 +234,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
                 $session->setUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Promotion>
+     */
+    public function getPromotion(): Collection
+    {
+        return $this->promotion;
+    }
+
+    public function addPromotion(Promotion $promotion): static
+    {
+        if (!$this->promotion->contains($promotion)) {
+            $this->promotion->add($promotion);
+        }
+
+        return $this;
+    }
+
+    public function removePromotion(Promotion $promotion): static
+    {
+        $this->promotion->removeElement($promotion);
 
         return $this;
     }
