@@ -7,10 +7,10 @@
 ```symfony console doctrine:fixtures:load```
 5 - Lancer le projet
 start server
-symfony server:start -d
+```symfony server:start -d```
 
 navigate to server
 start https://127.0.0.1:8000
 
 stop server
-symfony server:stop
+```symfony server:stop```
