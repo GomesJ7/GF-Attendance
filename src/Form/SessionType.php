@@ -30,20 +30,21 @@ class SessionType extends AbstractType
             ->add('commentaire')
             ->add('utilisateur', EntityType::class, [
                 'class' => Utilisateur::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nom',
             ])
             ->add('matiere', EntityType::class, [
                 'class' => Matiere::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nomMatiere',
             ])
             ->add('salleClasse', EntityType::class, [
                 'class' => SalleClasse::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nomSalle',
             ])
             ->add('promotion', EntityType::class, [
                 'class' => Promotion::class,
-                'choice_label' => 'id',
-                'multiple' => true,
+                'choice_label' => 'annee',
+                'multiple' => true, 
+                'expanded' => true,
             ])
         ;
     }

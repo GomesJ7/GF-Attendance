@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -15,6 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/session')]
 class SessionController extends AbstractController
 {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/', name: 'app_session_index', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function index(SessionRepository $sessionRepository): Response
@@ -84,4 +87,53 @@ class SessionController extends AbstractController
 
         return $this->redirectToRoute('app_session_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/emarger/create', name: 'app_session_emarger_create', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function emargerSession(Request $request, Session $session, UtilisateurRepository $utilisateurRepository, EntityManagerInterface $entityManager): Response
+    {
+        $sessionEmarger = $session->getEmargers()->getValues();
+        $sessionPromotion = $session->getPromotion()->getValues();
+
+        $formBuilder = $this->createFormBuilder();
+        
+        if(!empty($sessionPromotion)){
+            foreach ($sessionPromotion as $promotion) {
+                dump($promotion->getId());
+                $stagiaires = $utilisateurRepository->findByPromotion($promotion->getId());
+                dump($stagiaires);
+                if (!empty($stagiaires)){
+                    $choices = [];
+                    foreach ($stagiaires as $stagiaire) {
+                        $choices[$stagiaire->getNom()]= $stagiaire->getId();
+                    }
+                    $formBuilder
+                        ->add(
+                            "users_".$promotion->getId(), 
+                            ChoiceType::class,[
+                                'choices' => $choices,
+                                'expanded' => true,
+                                'multiple' => true,
+                                'choice_attr' => function($choice, string $key, mixed $value)
+                                {
+                                    return ['checked' => ''];
+                                },
+                                'label' => $promotion->getAnnee().''.$promotion->getFormation()->getSpecialite(),
+                            ]);  
+                    }
+                    
+            }}
+        $form = $formBuilder->getForm();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_session_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        
+        return $this->render('session/emarger.html.twig', [
+            'form' => $form
+        ]);
+    }
+
 }

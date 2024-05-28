@@ -16,6 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[Route('/utilisateur')]
 class UtilisateurController extends AbstractController
 {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/', name: 'app_utilisateur_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(UtilisateurRepository $utilisateurRepository): Response
@@ -50,10 +51,10 @@ class UtilisateurController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('utilisateur/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);

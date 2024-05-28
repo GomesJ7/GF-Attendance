@@ -24,13 +24,13 @@ class PromotionType extends AbstractType
             ])
             ->add('formation', EntityType::class, [
                 'class' => Formation::class,
-                'choice_label' => 'id',
+                'choice_label' => 'specialite',
             ])
-            ->add('sessions', EntityType::class, [
-                'class' => Session::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+#           ->add('sessions', EntityType::class, [
+#                'class' => Session::class,
+#                'choice_label' => 'id',
+#                'multiple' => true,
+#            ])
         ;
     }
 

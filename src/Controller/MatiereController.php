@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/matiere')]
 class MatiereController extends AbstractController
 {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/', name: 'app_matiere_index', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function index(MatiereRepository $matiereRepository): Response

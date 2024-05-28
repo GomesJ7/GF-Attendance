@@ -12,9 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 #[Route('/emarger')]
 class EmargerController extends AbstractController
 {
+    
     #[Route('/', name: 'app_emarger_index', methods: ['GET'])]
     public function index(EmargerRepository $emargerRepository): Response
     {
@@ -24,7 +26,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/new', name: 'app_emarger_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN','ROLE_FORMATEUR')]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $emarger = new Emarger();
