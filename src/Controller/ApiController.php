@@ -48,7 +48,9 @@ class ApiController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NOT_FOUND);
     }
 
-    #[Route('/matiere', name: 'api_matiere_new', methods: ['POST'])]
+
+/*    #[Route('/matiere', name: 'api_matiere_new', methods: ['POST'])]
+>>>>>>> f7719c447a084e5e291997788e16973836cad0dd
     public function newMatiere(Request $request, SerializerInterface $serializer, EntityManagerInterface $em): JsonResponse
     {
         $matiere = $serializer->deserialize($request->getContent(), Matiere::class, 'json');
@@ -57,7 +59,10 @@ class ApiController extends AbstractController
         $jsonMatiere = $serializer->serialize($matiere, 'json');
         return new JsonResponse($jsonMatiere, Response::HTTP_CREATED, [], true);
     }
-    #[Route('/matiere', name: 'api_matiere_delete', methods: ['DELETE'])]
+
+
+#[Route('/matiere', name: 'api_matiere_delete', methods: ['DELETE'])]
+>>>>>>> f7719c447a084e5e291997788e16973836cad0dd
 public function deleteMatiere(Request $request, EntityManagerInterface $entityManager): JsonResponse
 {
     $data = json_decode($request->getContent(), true);
@@ -72,7 +77,8 @@ public function deleteMatiere(Request $request, EntityManagerInterface $entityMa
     $entityManager->remove($matiere);
     $entityManager->flush();
     return new JsonResponse(['message' => 'Matiere deleted successfully'], Response::HTTP_OK);
-}
+
+}*/
 
 // sesion ---------------------------------------------
 
@@ -95,8 +101,9 @@ public function getSession(Int $id, SessionRepository $sessionRepository, Serial
     return new JsonResponse(null, Response::HTTP_NOT_FOUND);
 }
 
-#[Route('/session', name: 'api_session_new', methods: ['POST'])]
-public function newSession(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager): JsonResponse
+#[Route('/{id}/emarger/create', name: 'app_session_emarger_create', methods: ['GET', 'POST'])]
+public function newEmargerSession(Request $request, SerializerInterface $serializer, EntityManagerInterface $entityManager): JsonResponse
+
 {
     $session = $serializer->deserialize($request->getContent(), Session::class, 'json');
     $entityManager->persist($session);
@@ -106,25 +113,15 @@ public function newSession(Request $request, SerializerInterface $serializer, En
     
 }
 
-#[Route('/session', name: 'api_session_delete', methods: ['DELETE'])]
-public function deleteSession(Request $request, EntityManagerInterface $entityManager): JsonResponse
-{
-    $data = json_decode($request->getContent(), true);
-    $id = $data['id'] ?? null;
-    if ($id === null) {
-        return new JsonResponse(['error' => 'Missing ID parameter'], Response::HTTP_BAD_REQUEST);
-    }
-    $session = $entityManager->getRepository(Session::class)->find($id);
-    if (!$session) {
-        return new JsonResponse(['error' => 'Session not found'], Response::HTTP_NOT_FOUND);
-    }
-    $entityManager->remove($session);
-    $entityManager->flush();
-    return new JsonResponse(['message' => 'Session deleted successfully'], Response::HTTP_OK);
-}
 
 // authentification ----------------------------------------
-
+#[Route('/profil', name: 'api_profil', methods: ['GET'])]
+    public function getProfil(SerializerInterface $serializer): JsonResponse
+    {
+        $user = $this->getUser();
+        $json = $serializer->serialize($user, 'json', ['groups' => 'getUser']);
+        return new JsonResponse($json, Response::HTTP_OK, [], true);
+    }
 
 
 }
