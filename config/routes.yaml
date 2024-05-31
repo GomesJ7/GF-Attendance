@@ -7,3 +7,5 @@ home:
     path: /
     controller: App\Controller\HomeController::index
     methods: GET
+api_login_check:
+    path: /api/login_check
