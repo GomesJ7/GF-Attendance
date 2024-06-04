@@ -13,6 +13,11 @@
         {% endblock %}
     </head>
     <body>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ include ("navbar.html.twig") }}
+    {% endif %}
+    
+    
         <div class="container">
             {% block body %}{% endblock %}
         </div>
