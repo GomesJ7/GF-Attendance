@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
@@ -47,7 +48,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emarger_show', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN','ROLE_FORMATEUR')]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_FORMATEUR")'))]
     public function show(Emarger $emarger): Response
     {
         return $this->render('emarger/show.html.twig', [
@@ -56,7 +57,7 @@ class EmargerController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_emarger_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_FORMATEUR")'))]
     public function edit(Request $request, Emarger $emarger, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmargerType::class, $emarger);
