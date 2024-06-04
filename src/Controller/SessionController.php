@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Emarger;
+use App\Entity\Promotion;
+use App\Entity\Utilisateur;
 use App\Entity\Session;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
@@ -13,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 #[Route('/session')]
 class SessionController extends AbstractController
@@ -92,48 +97,125 @@ class SessionController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function emargerSession(Request $request, Session $session, UtilisateurRepository $utilisateurRepository, EntityManagerInterface $entityManager): Response
     {
+        // Récupération des émargements et promotions liés à la session
         $sessionEmarger = $session->getEmargers()->getValues();
-        $sessionPromotion = $session->getPromotion()->getValues();
+        $sessionPromotions = $session->getPromotion()->getValues(); // Assurez-vous que getPromotions() retourne bien un tableau de promotions
 
+        // Initialisation du form builder
         $formBuilder = $this->createFormBuilder();
-        
-        if(!empty($sessionPromotion)){
-            foreach ($sessionPromotion as $promotion) {
-                dump($promotion->getId());
+
+        // Si le tableau des promotions n'est pas vide
+        if (!empty($sessionPromotions)) {
+            foreach ($sessionPromotions as $promotion) {
+                // Récupération des utilisateurs de la promotion
                 $stagiaires = $utilisateurRepository->findByPromotion($promotion->getId());
-                dump($stagiaires);
-                if (!empty($stagiaires)){
+
+                // Si le tableau des utilisateurs n'est pas vide
+                if (!empty($stagiaires)) {
                     $choices = [];
                     foreach ($stagiaires as $stagiaire) {
-                        $choices[$stagiaire->getNom()]= $stagiaire->getId();
+                        // Ajout des utilisateurs dans un tableau de choix
+                        $choices[$stagiaire->getNom()] = $stagiaire->getId();
                     }
-                    $formBuilder
-                        ->add(
-                            "users_".$promotion->getId(), 
-                            ChoiceType::class,[
-                                'choices' => $choices,
-                                'expanded' => true,
-                                'multiple' => true,
-                                'choice_attr' => function($choice, string $key, mixed $value)
-                                {
-                                    return ['checked' => ''];
-                                },
-                                'label' => $promotion->getAnnee().''.$promotion->getFormation()->getSpecialite(),
-                            ]);  
-                    }
-                    
-            }}
+
+                    // Ajout d'un champ de type ChoiceType au form builder
+                    $formBuilder->add(
+                        "users_" . $promotion->getId(),
+                        ChoiceType::class, [
+                            'choices' => $choices,
+                            'expanded' => true,
+                            'multiple' => true,
+                            'choice_attr' => function($choice, string $key, mixed $value) {
+                                // Par défaut, tous les choix sont cochés
+                                return ['checked' => ''];
+                            },
+                            'label' => $promotion->getAnnee() . ' ' . $promotion->getFormation()->getSpecialite(),
+                        ]
+                    );
+                }
+            }
+        }
+
+        // Ajout des champs supplémentaires
+        $formBuilder->add('alternative', TextType::class)
+                    ->add('heureArrivee', DateTimeType::class, [
+                        'widget' => 'single_text',
+                        'placeholder' => [
+                            'year' => 'Year', 'month' => 'Month', 'day' => 'Day', 'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+                        ],
+                    ])
+                    ->add('heureDepart', DateTimeType::class, [
+                        'widget' => 'single_text',
+                        'placeholder' => [
+                            'year' => 'Year', 'month' => 'Month', 'day' => 'Day', 'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+                        ],
+                    ]);
+
+        // Génération du formulaire
         $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+
+        // Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
+            // Vider les émargements existants pour la session
+            if (!empty($sessionEmarger)) {
+                foreach ($sessionEmarger as $emarger) {
+                    $entityManager->remove($emarger);
+                }
+                $entityManager->flush();
+            }
+
+            // Récupération des données du formulaire
+            $data = $form->getData();
+
+            // Extraction des valeurs des champs supplémentaires
+            $alternative = $data['alternative'];
+            $heureArrivee = $data['heureArrivee'] instanceof \DateTimeInterface ? \DateTimeImmutable::createFromMutable($data['heureArrivee']) : null;
+            $heureDepart = $data['heureDepart'] instanceof \DateTimeInterface ? \DateTimeImmutable::createFromMutable($data['heureDepart']) : null;
+
+            foreach ($data as $promotionKey => $utilisateurIds) {
+                if (is_array($utilisateurIds)) {
+                    foreach ($utilisateurIds as $utilisateurId) {
+                        $emarger = new Emarger();
+                        $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($utilisateurId);
+
+                        if ($utilisateur) {
+                            $emarger->setPresence(true); // Présence cochée
+                            $emarger->setAlternative($alternative);
+                            $emarger->setHeureArrivee($heureArrivee);
+                            $emarger->setHeureDepart($heureDepart);
+                            $emarger->setSession($session);
+                            $emarger->setUtilisateur($utilisateur);
+                            $entityManager->persist($emarger);
+                        }
+                    }
+                }
+
+                // Gérer les utilisateurs non cochés (absents)
+                $allStagiaires = $utilisateurRepository->findByPromotion($promotionKey);
+                $checkedUtilisateurIds = is_array($utilisateurIds) ? $utilisateurIds : [];
+
+                foreach ($allStagiaires as $stagiaire) {
+                    if (!in_array($stagiaire->getId(), $checkedUtilisateurIds)) {
+                        $emarger = new Emarger();
+                        $emarger->setPresence(false); // Présence non cochée
+                        $emarger->setSession($session);
+                        $emarger->setUtilisateur($stagiaire);
+                        $entityManager->persist($emarger);
+                    }
+                }
+            }
+
+            // Sauvegarde des nouveaux émargements
             $entityManager->flush();
 
+            // Redirection vers la liste des sessions
             return $this->redirectToRoute('app_session_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        
+        // Affichage du formulaire dans le template Twig
         return $this->render('session/emarger.html.twig', [
-            'form' => $form
+            'form' => $form->createView(),
         ]);
     }
-
-}
+}    
