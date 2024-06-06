@@ -24,24 +24,32 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href={{path("home")}}>Accueil</a>
+          </li>
+          {% if is_granted('ROLE_FORMATEUR')%}
+          <li class="nav-item">
+            <a class="nav-link" href={{path("session")}}>Session</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href={{path("emarger")}}>Emarger</a>
           </li>
-         <!-- <li class="nav-item dropdown">
+          {% endif %}
+          {% if is_granted('ROLE_ADMIN') %}
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
+              Gestion App
             </a>
             <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href={{path("utilisateur")}}>Utilisateur</a></li>
+              <li><a class="dropdown-item" href={{path("session")}}>Session</a></li>
+              <li><a class="dropdown-item" href={{path("emarger")}}>Emarger</a></li>
+              <li><a class="dropdown-item" href={{path("matiere")}}>Matière</a></li>
+              <li><a class="dropdown-item" href={{path("formation")}}>Formation</a></li>
+              <li><a class="dropdown-item" href={{path("promotion")}}>Promotion</a></li>
+              <li><a class="dropdown-item" href={{path("salle")}}>Salle</a></li>
             </ul>
-          </li> -->
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

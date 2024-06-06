@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Emarger;
-use App\Entity\Promotion;
+use Symfony\Component\ExpressionLanguage\Expression;
 use App\Entity\Utilisateur;
 use App\Entity\Session;
 use App\Form\SessionType;
@@ -94,7 +94,7 @@ class SessionController extends AbstractController
     }
 
     #[Route('/{id}/emarger/create', name: 'app_session_emarger_create', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_FORMATEUR")'))]
     public function emargerSession(Request $request, Session $session, UtilisateurRepository $utilisateurRepository, EntityManagerInterface $entityManager): Response
     {
         // Récupération des émargements et promotions liés à la session
