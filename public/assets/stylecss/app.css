@@ -1,0 +1,28 @@
+body {
+    background-color: #e8f0fa;
+}
+
+/* texture page loging */
+
+.image-auth {width: 100% ; display: flex; justify-content: center;}
+.left-part {width: 40px ;margin-left: 150px; display: flex; flex-direction: column; }
+.photo-container {margin-left: 200px; width: 498px; height: 517px;}
+.photo-container img {width: 523px; height: 552px; object-fit: cover;}
+.right-part {width: -140px ; margin-left: 750px ;margin-top: 10px; display: flex; flex-direction: column;}
+.logo-container {margin-left: 20px; width: 238px; height: 246px;}
+.logo-container img{width: 179px; height: 185px; background-color: #e8f0fa; }
+.container-checkbox_hidden{width: 400px ;}
+
+/*texture page home*/
+.GF {color: #363376; font-weight: bold; }
+.Attendance {color: #e85421; font-weight: bold; }
+
+.workbench {width: 100%; display: flex; justify-content: center;margin-top: 2rem;}
+.colonne {display: flex;flex-direction: column; justify-content: center; align-items: center; gap: 10px;}
+.bandeau-orange{ width: 320px; height: 45px; font-size: 25px; background: #E85421; font-weight: 700;color: #f0f0f0; border-radius: 10px 10px 0px 0px;
+     justify-content: center; margin-left:-8px; margin-top: -6px;}
+.card{width: 320px; height: 246px; margin-left: 10px;}
+.btn-emploi_temps img{width: 209px; height: 163px; margin-left: 43px;}
+.bandeau-bleu{ width: 320px; height: 45px; background: #363376; border-radius: 0px 0px 10px 10px; margin-bottom:-8px; margin-left: -7px;}
+
+
