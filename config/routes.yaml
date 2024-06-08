@@ -7,5 +7,41 @@ home:
     path: /
     controller: App\Controller\HomeController::index
     methods: GET
+    
+utilisateur:
+    path: /utilisateur/
+    controller: App\Controller\UtilisateurController::index
+    methods: GET
+
+session:
+    path: /session/
+    controller: App\Controller\SessionController::index
+    methods: GET
+
+emarger:
+    path: /emarger/
+    controller: App\Controller\EmargerController::index
+    methods: GET
+
+formation:
+    path: /formation/
+    controller: App\Controller\FormationController::index
+    methods: GET
+
+promotion:
+    path: /promotion/
+    controller: App\Controller\PromotionController::index
+    methods: GET
+
+matiere:
+    path: /matiere/
+    controller: App\Controller\MatiereController::index
+    methods: GET
+
+salle:
+    path: salleClasse
+    controller: App\Controller\SalleClasseController::index
+    methods: GET
+
 api_login_check:
     path: /api/login_check

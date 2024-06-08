@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/promotion')]
 class PromotionController extends AbstractController
 {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/', name: 'app_promotion_index', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function index(PromotionRepository $promotionRepository): Response

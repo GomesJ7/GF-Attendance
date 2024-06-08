@@ -9,8 +9,11 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
                 <th>Presence</th>
                 <th>Alternative</th>
+                <th>Cours</th>
                 <th>HeureArrivee</th>
                 <th>HeureDepart</th>
                 <th>actions</th>
@@ -20,8 +23,11 @@
         {% for emarger in emargers %}
             <tr>
                 <td>{{ emarger.id }}</td>
+                <td>{{ emarger.utilisateur.nom}}</td>
+                <td>{{ emarger.utilisateur.prenom}}</td>
                 <td>{{ emarger.presence ? 'Yes' : 'No' }}</td>
                 <td>{{ emarger.alternative }}</td>
+                <td>{{ emarger.session.matiere.nomMatiere}}</td>
                 <td>{{ emarger.heureArrivee ? emarger.heureArrivee|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ emarger.heureDepart ? emarger.heureDepart|date('Y-m-d H:i:s') : '' }}</td>
                 <td>

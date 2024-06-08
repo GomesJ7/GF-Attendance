@@ -12,9 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/salle/classe')]
+#[Route('/salle')]
 class SalleClasseController extends AbstractController
 {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/', name: 'app_salle_classe_index', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function index(SalleClasseRepository $salleClasseRepository): Response

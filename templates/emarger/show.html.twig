@@ -12,8 +12,20 @@
                 <td>{{ emarger.id }}</td>
             </tr>
             <tr>
+                <th>Nom</th>
+                <td>{{ emarger.utilisateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ emarger.utilisateur.prenom }}</td>
+            </tr>
+            <tr>
                 <th>Presence</th>
                 <td>{{ emarger.presence ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Cours</th>
+                <td>{{ emarger.session.matiere.nomMatiere }}</td>
             </tr>
             <tr>
                 <th>Alternative</th>

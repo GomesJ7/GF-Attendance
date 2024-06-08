@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Utilisateur;
+use App\Entity\Promotion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -38,6 +39,16 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
+    public function findByPromotion($promotionId): array
+    {
+        return $this->createQueryBuilder('u')
+                ->leftJoin('u.promotion', 'p')
+                ->andWhere('p.id = :promotionId')
+                ->setParameter('promotionId', $promotionId)
+                ->orderBy('u.id', 'ASC')
+                ->getQuery()
+                ->getResult();
+    }
     //    /**
     //     * @return Utilisateur[] Returns an array of Utilisateur objects
     //     */

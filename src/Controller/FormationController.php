@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/formation')]
 class FormationController extends AbstractController
 {
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     #[Route('/', name: 'app_formation_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(FormationRepository $formationRepository): Response
