@@ -11,6 +11,7 @@ use App\Form\SessionType;
 use App\Repository\SessionRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -55,6 +56,7 @@ class SessionController extends AbstractController
             'sessions' => $sessions,
         ]);
     }*/
+
 
     #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]

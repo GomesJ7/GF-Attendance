@@ -2,44 +2,63 @@
 
 {% block title %}Log in!{% endblock %}
 
+
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            Connexion réussite à {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+<div id="background-container">   
+    <div class="image-auth">
+        <div class="left-part">
+            <div class="photo-container">
+                <img src="{{ asset('assets/images/photo.jpg')}}" alt="">
+            </div>
         </div>
-    {% endif %}
+        <div class="right-part">
+            <div style="margin-left: 0.25rem">
+                <p style="font-size: 20px; font-weight: 500;">Connexion à votre espace</p>
+            </div>
+            <div class="logo-container">
+                <img src="{{ asset('assets/images/logo.png')}}" alt="">
+            </div> 
+            <div class="champ-auth">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Veuillez vous connecter</h1>
+                    {% if app.user %}
+                        <div class="mb-3">
+                            Connexion réussite à {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                        </div>
+                    {% endif %}
 
-    <div class="container">
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    <h2 class="h3 mb-3 font-weight-normal" style="font-size: 1.5rem; margin-left: 10px;">Veuillez vous authentifier</h2>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+                    <div class="container" style= "width: 300px; margin-right: 500px">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Se souvenir de moi
-        </label>
-    </div>
-    <a href="{{path('app_forgot_password_request')}}" class="text-body">
-        <i class="fa fa-question-circle" aria-hidden="true"></i>
-    {{'Mot de passe oublié'|trans}}</a>
-    </div>
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-    <button class="btn btn-primary" type="submit">
-        Connexion
-    </button>
-    </div>
-</form>
+                    <input type="hidden" name="_csrf_token"
+                            value="{{ csrf_token('authenticate') }}"
+                    >
+                    <div class="container-checkbox_hidden">
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me" > Se souvenir de moi
+                            </label><span>
+                        
+                        <a href="{{path('app_forgot_password_request')}}" class="text-body">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        {{'Mot de passe oublié'|trans}}</a></span>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="border-radius: 10px; background-color: #e85421; margin-left: 10px; font-weight: 700">
+                        CONNEXION
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div> 
+</div>
 {% endblock %}
