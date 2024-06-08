@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -14,21 +15,27 @@ class Session
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getSessions'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['getSessions'])]
     private ?string $intitule = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Groups(['getSessions'])]
     private ?\DateTimeImmutable $dateSession = null;
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    #[Groups(['getSessions'])]
     private ?\DateTimeImmutable $heureDebut = null;
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    #[Groups(['getSessions'])]
     private ?\DateTimeImmutable $heureFin = null;
 
     #[ORM\Column(length: 250, nullable: true)]
+    #[Groups(['getSessions'])]
     private ?string $commentaire = null;
 
     /**
