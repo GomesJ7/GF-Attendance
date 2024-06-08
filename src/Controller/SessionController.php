@@ -40,7 +40,16 @@ class SessionController extends AbstractController
 
     //Recuperer les sessions aux quellesparticipes l'utilisateur
     $sessions = $utilisateur->getSessions()->getValues();
-        
+    $sessions=[];
+    
+        foreach($promotions as $promotion) {
+            foreach($promotion ->getSessions() as $session) {
+            if (!in_array($session,$sessions)){
+                $session[] = $session;
+            }
+        }
+    }
+       
     // Trier les sessions par date
     usort($sessions, function($a, $b) {
         return $a->getDate() <=> $b->getDate();
