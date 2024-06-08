@@ -7,6 +7,7 @@ home:
     path: /
     controller: App\Controller\HomeController::index
     methods: GET
+    
 utilisateur:
     path: /utilisateur/
     controller: App\Controller\UtilisateurController::index
@@ -41,3 +42,6 @@ salle:
     path: salleClasse
     controller: App\Controller\SalleClasseController::index
     methods: GET
+
+api_login_check:
+    path: /api/login_check
