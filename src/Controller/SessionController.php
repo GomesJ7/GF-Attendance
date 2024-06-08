@@ -10,6 +10,7 @@ use App\Form\SessionType;
 use App\Repository\SessionRepository;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,27 @@ class SessionController extends AbstractController
             'sessions' => $sessionRepository->findAll(),
         ]);
     }
+    #[Route('/sessions_utilisateur', name:'app_sessions_utilisateur')]
+        public function sessionsUtilisateur( UtilisateurRepository $utilisateurRepository,EntityManagerInterface $entityManager): Response
+    {
+    //recuperation de l'utilisateur connecté
+    $utilisateur = $this -> getUser();
 
+    //Recuperer les sessions aux quellesparticipes l'utilisateur
+    $sessions = $utilisateur->getSessions()->getValues();
+        
+    // Trier les sessions par date
+    usort($sessions, function($a, $b) {
+        return $a->getDate() <=> $b->getDate();
+    });
+
+    dump($sessions);    
+
+    return $this->render('session/sessions_utilisateur.html.twig', [
+        'sessions' -> $sessions,
+    ]);   
+    }
+    
     #[Route('/new', name: 'app_session_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
