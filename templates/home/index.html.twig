@@ -3,13 +3,72 @@
 {% block title %}Page d'accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>GFAttendance ✅</h1>
-    <p></p>
+<div class="workbench">
+    <div class="colonne">            
+        <button class="card">
+            <div class="bandeau-orange">EMPLOI DU TEMPS</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/emploi_temps.png')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>        
+        <button class="card">
+            <div class="bandeau-orange">FORMATION</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>                    
+    </div>    
+    <div class="colonne">
+        <button class="card">
+            <div class="bandeau-orange">PROMOTION</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/promotion.png')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>            
+        <button class="card">
+            <div class="bandeau-orange">UTILISATEUR</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>            
+    </div> 
+    <div class="colonne">
+        <button class="card">
+            <div class="bandeau-orange">SALLE DE CLASSE</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>
+        <button class="card">
+            <div class="bandeau-orange">EMARGEMENT</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/recap_rh.png')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>            
+    </div> 
+    <div class="colonne">    
+        <button class="card">
+            <div class="bandeau-orange">MATIERE</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button> 
+        <button class="card">
+            <div class="bandeau-orange">SESSION</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>        
+    </div>
 </div>
+   
+
 {% endblock %}

@@ -1,7 +1,14 @@
-<nav class="navbar navbar-light fixed-top" style="background-color: #e3f2fd;">
+<style>
+  .navbar-brand{ 
+    font-weight: bold;
+  }
+</style>
+<nav class="navbar navbar-light fixed-top" style="background-image: url('{{ asset('assets/images/bandeau2.png')}}');">
   <div class="container-fluid">
-    <a class="navbar-brand" href={{path("home")}}>GFAttendance</a>
-
+  <a href="{{ path('home') }}">
+    <img src= "{{ asset('assets/images/logo_navbar.png') }}">
+  </a>
+    <h1 style="color: #F5F5F5">GFAttendance</h1>
 <!--
     <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Search">
@@ -9,7 +16,7 @@
     </form>
 -->
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon" style="background-image: url('{{ asset('assets/images/hamburger.png')}}');"></span>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
