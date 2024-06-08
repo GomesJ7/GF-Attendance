@@ -4,80 +4,70 @@
 
 {% block body %}
 <div class="workbench">
-        <div class="colonne">            
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >EMPLOI DU TEMPS</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/emploi_temps.png')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>
-            
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >FORMATION</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >PROMOTION</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>            
-        </div>    
-        <div class="colonne">            
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >UTILISATEUR</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>
-            
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >SALLE DE CLASSE</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >EMARGEMENTE</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>            
-            
-        </div> 
-        <div class="colonne">
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >MATIERE</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button> 
-            <button class="btn">
-                <div class="bandeau-orange" style="width: 345px; height: 45px; font-size: 25px"
-                >SESSION</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu" style="width: 345px; height: 45px;"></div>
-            </button>
-            
-        </div>
+    <div class="colonne">            
+        <button class="card">
+            <div class="bandeau-orange">EMPLOI DU TEMPS</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/emploi_temps.png')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>        
+        <button class="card">
+            <div class="bandeau-orange">FORMATION</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>                    
+    </div>    
+    <div class="colonne">
+        <button class="card">
+            <div class="bandeau-orange">PROMOTION</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/promotion.png')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>            
+        <button class="card">
+            <div class="bandeau-orange">UTILISATEUR</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>            
+    </div> 
+    <div class="colonne">
+        <button class="card">
+            <div class="bandeau-orange">SALLE DE CLASSE</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>
+        <button class="card">
+            <div class="bandeau-orange">EMARGEMENT</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/recap_rh.png')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>            
+    </div> 
+    <div class="colonne">    
+        <button class="card">
+            <div class="bandeau-orange">MATIERE</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button> 
+        <button class="card">
+            <div class="bandeau-orange">SESSION</div>
+            <div class="btn-emploi_temps">
+                <img src="{{ asset('assets/images/')}}" alt="">
+            </div>    
+            <div class="bandeau-bleu"></div>
+        </button>        
+    </div>
 </div>
    
 
