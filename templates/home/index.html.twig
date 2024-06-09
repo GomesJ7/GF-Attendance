@@ -4,69 +4,85 @@
 
 {% block body %}
 <div class="workbench">
-    <div class="colonne">            
-        <button class="card">
-            <div class="bandeau-orange">EMPLOI DU TEMPS</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/emploi_temps.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>        
-        <button class="card">
-            <div class="bandeau-orange">FORMATION</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/formation.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>                    
+    <div class="colonne">
+        <form action="{{ path('app_sessions_utilisateur') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">EMPLOI DU TEMPS</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/emploi_temps.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>        
+        <form action="{{ path('app_formation_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">FORMATION</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/formation.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>               
     </div>    
     <div class="colonne">
-        <button class="card">
-            <div class="bandeau-orange">PROMOTION</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/promotion.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>            
-        <button class="card">
-            <div class="bandeau-orange">UTILISATEUR</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/utilisateur.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>            
+        <form action="{{ path('app_promotion_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">PROMOTION</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/promotion.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>            
+        <form action="{{ path('app_utilisateur_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">UTILISATEUR</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/utilisateur.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>            
     </div> 
     <div class="colonne">
-        <button class="card">
-            <div class="bandeau-orange">SALLE DE CLASSE</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/salle.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>
-        <button class="card">
-            <div class="bandeau-orange">EMARGEMENT</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/emargement.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>            
+        <form action="{{ path('app_salle_classe_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">SALLE DE CLASSE</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/salle.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>
+        <form action="{{ path('app_emarger_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">EMARGEMENT</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/emargement.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>            
     </div> 
     <div class="colonne">    
-        <button class="card">
-            <div class="bandeau-orange">MATIERE</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/matiere.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button> 
-        <button class="card">
-            <div class="bandeau-orange">SESSION</div>
-            <div class="btn-emploi_temps">
-                <img src="{{ asset('assets/images/cours.png')}}" alt="">
-            </div>    
-            <div class="bandeau-bleu"></div>
-        </button>        
+        <form action="{{ path('app_matiere_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">MATIERE</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/matiere.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form> 
+        <form action="{{ path('app_session_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">SESSION</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/cours.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>        
     </div>
 </div>
    
