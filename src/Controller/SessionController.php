@@ -36,12 +36,14 @@ class SessionController extends AbstractController
         ]);
     }
 
-    #[Route('/utilisateur', name: 'app_session_utilisateur', methods: ['GET'])]
-    /*public function sessions(): Response
+    /*#[Route('/utilisateur', name: 'app_session_utilisateur', methods: ['GET'])]
+    public function sessions(): Response
     {
-        $utilisateur = $this->getUser();
         
+        $utilisateur = $this->getUser();
+        //dump($utilisateur);  
         $promotions = $utilisateur->getPromotion()->getValues();
+        //dump($promotions);
         $sessions = [];
 
         foreach ($promotions as $promotion) {

@@ -4,14 +4,17 @@
 
 {% block body %}
 <div class="workbench">
-    <div class="colonne">            
+    <div class="colonne">
+    <a>            
         <button class="card">
             <div class="bandeau-orange">EMPLOI DU TEMPS</div>
             <div class="btn-emploi_temps">
                 <img src="{{ asset('assets/images/emploi_temps.png')}}" alt="">
             </div>    
             <div class="bandeau-bleu"></div>
-        </button>        
+        </button>
+    </a>
+        {% if is_granted('ROLE_ADMIN') %}        
         <button class="card">
             <div class="bandeau-orange">FORMATION</div>
             <div class="btn-emploi_temps">
@@ -66,7 +69,8 @@
                 <img src="{{ asset('assets/images/')}}" alt="">
             </div>    
             <div class="bandeau-bleu"></div>
-        </button>        
+        </button>
+        {% endif %}        
     </div>
 </div>
    

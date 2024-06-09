@@ -99,7 +99,7 @@ class UtilisateurController extends AbstractController
 
         return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/sessions', name: 'app_utilisateur_sessions', methods: ['GET'])]
+    /*#[Route('/sessions', name: 'app_utilisateur_sessions', methods: ['GET'])]
     public function sessions(): Response
     {
         $user = $this->getUser();
@@ -112,5 +112,5 @@ class UtilisateurController extends AbstractController
         return $this->render('utilisateur/sessions.html.twig', [
             'sessions' => $sessions,
         ]);
-    }
+    }*/
 }
