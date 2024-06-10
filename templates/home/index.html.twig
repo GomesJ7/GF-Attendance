@@ -5,7 +5,7 @@
 {% block body %}
 <div class="workbench">
     <div class="colonne">
-        <form action="{{ path('app_sessions_utilisateur') }}" method="get">            
+        <form action="{{ path('app_session_index') }}" method="get">            
             <button class="card" type="submit">
                 <div class="bandeau-orange">EMPLOI DU TEMPS</div>
                 <div class="btn-emploi_temps">
@@ -13,7 +13,9 @@
                 </div>    
                 <div class="bandeau-bleu"></div>
             </button>
-        </form>        
+        </form> 
+        {% if is_granted('ROLE_ADMIN') %}
+               
         <form action="{{ path('app_formation_index') }}" method="get">            
             <button class="card" type="submit">
                 <div class="bandeau-orange">FORMATION</div>
@@ -54,17 +56,6 @@
                 <div class="bandeau-bleu"></div>
             </button>
         </form>
-        <form action="{{ path('app_emarger_index') }}" method="get">            
-            <button class="card" type="submit">
-                <div class="bandeau-orange">EMARGEMENT</div>
-                <div class="btn-emploi_temps">
-                    <img src="{{ asset('assets/images/emargement.png')}}" alt="">
-                </div>    
-                <div class="bandeau-bleu"></div>
-            </button>
-        </form>            
-    </div> 
-    <div class="colonne">    
         <form action="{{ path('app_matiere_index') }}" method="get">            
             <button class="card" type="submit">
                 <div class="bandeau-orange">MATIERE</div>
@@ -74,6 +65,9 @@
                 <div class="bandeau-bleu"></div>
             </button>
         </form> 
+    </div> 
+    <div class="colonne">    
+
         <form action="{{ path('app_session_index') }}" method="get">            
             <button class="card" type="submit">
                 <div class="bandeau-orange">SESSION</div>
@@ -82,7 +76,17 @@
                 </div>    
                 <div class="bandeau-bleu"></div>
             </button>
-        </form>        
+        </form>
+        {% endif %}
+        <form action="{{ path('app_emarger_index') }}" method="get">            
+            <button class="card" type="submit">
+                <div class="bandeau-orange">EMARGEMENT</div>
+                <div class="btn-emploi_temps">
+                    <img src="{{ asset('assets/images/emargement.png')}}" alt="">
+                </div>    
+                <div class="bandeau-bleu"></div>
+            </button>
+        </form>             
     </div>
 </div>
    
